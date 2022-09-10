@@ -1,4 +1,6 @@
 <h1>{{title}}</h1>
 
-<ng-content [@routeAnimation]="getAnimationData()"></ng-content>
+<div [@routeAnimation]="getAnimationData()"></div>
+
 <router-outlet></router-outlet>
+<a [routerLink]="[{ outlets: { popup: ['compose'] } }]">Contact</a>

@@ -34,7 +34,7 @@ export class CrisisDetailComponent implements OnInit {
   gotoCrisis(crisis: Crisis): void {
     const crisisId = crisis ? crisis.id : null;
 
-    this.router.navigate(['/crises', { id: crisisId }]);
+    this.router.navigate(['/crises', { id: crisisId }, { relativeTo: this.route }]);
   }
 
 }
