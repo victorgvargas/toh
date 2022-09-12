@@ -7,23 +7,21 @@ import { HeroesModule } from './heroes/heroes.module';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ComposeMessageComponent } from './compose-message/compose-message.component';
+import { AdminModule } from './admin/admin.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    MessagesComponent,
-    ComposeMessageComponent
-  ],
+  declarations: [AppComponent, MessagesComponent, ComposeMessageComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     HeroesModule,
-    AppRoutingModule
+    AdminModule,
+    AppRoutingModule,
   ],
   providers: [
     // no need to place any providers due to the `providedIn` flag...
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
