@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ComposeMessageComponent } from './compose-message/compose-message.component';
 import { AdminModule } from './admin/admin.module';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [AppComponent, MessagesComponent, ComposeMessageComponent],
@@ -17,6 +18,7 @@ import { AdminModule } from './admin/admin.module';
     FormsModule,
     HeroesModule,
     AdminModule,
+    AuthModule,
     AppRoutingModule,
   ],
   providers: [
