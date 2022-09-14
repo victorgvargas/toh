@@ -1,40 +1,49 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Observable, switchMap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { DialogService } from 'src/app/dialog.service';
 import { Crisis } from '../crisis';
-import { CrisisService } from '../crisis.service';
 
 @Component({
   selector: 'app-crisis-detail',
   templateUrl: './crisis-detail.component.html',
-  styleUrls: ['./crisis-detail.component.css']
+  styleUrls: ['./crisis-detail.component.css'],
 })
 export class CrisisDetailComponent implements OnInit {
-
-  crisis$: Observable<Crisis> | undefined;
+  crisis!: Crisis;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private crisisService: CrisisService,
-  ) { }
+    private dialogService: DialogService
+  ) {}
 
   ngOnInit(): void {
-    // this.hero$ = this.route.paramMap.pipe(
-    //   switchMap((params: ParamMap) => 
-    //     this.heroService.getHero(Number(params.get('id')!)))
-    //   );
-    // CODE ABOVE USED WHEN THERE'S COMPONENT RE-USE
-
-    const id = this.route.snapshot.paramMap.get('id')!;
-
-    this.crisis$ = this.crisisService.getCrisis(Number(id));
+    this.route.data.subscribe((data) => {
+      const crisis: Crisis = data['crisis'];
+      this.crisis = crisis;
+    });
   }
 
-  gotoCrisis(crisis: Crisis): void {
+  gotoCrisis(crisis?: Crisis): void {
     const crisisId = crisis ? crisis.id : null;
 
-    this.router.navigate(['/crises', { id: crisisId }, { relativeTo: this.route }]);
+    this.router.navigate([
+      '/crises',
+      { id: crisisId },
+      { relativeTo: this.route },
+    ]);
   }
 
+  cancel(): void {
+    this.gotoCrisis();
+  }
+
+  save(): void {}
+
+  canDeactivate(): Observable<boolean> | boolean {
+    if (!this.crisis) return true;
+
+    return this.dialogService.confirm('Discard changes?');
+  }
 }

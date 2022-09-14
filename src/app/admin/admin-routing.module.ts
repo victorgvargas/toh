@@ -11,9 +11,11 @@ const routes: Routes = [
     path: 'admin',
     component: AdminComponent,
     canActivate: [AuthGuard],
+    canMatch: [AuthGuard],
     children: [
       {
         path: '',
+        canActivateChild: [AuthGuard],
         children: [
           { path: 'crises', component: ManageCrisisComponent },
           { path: 'heroes', component: ManageHeoresComponent },

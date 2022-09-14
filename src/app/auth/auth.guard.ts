@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
+  CanActivateChild,
+  NavigationExtras,
+  Route,
   Router,
   RouterStateSnapshot,
   UrlTree,
@@ -12,7 +15,7 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate, CanActivateChild {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
@@ -28,6 +31,17 @@ export class AuthGuard implements CanActivate {
     return this.checkLogin(url);
   }
 
+  canActivateChild(
+    childRoute: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ):
+    | boolean
+    | UrlTree
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree> {
+    return this.canActivate(childRoute, state);
+  }
+
   checkLogin(url: string): true | UrlTree {
     if (this.authService.isLoggedIn) {
       return true;
@@ -35,6 +49,18 @@ export class AuthGuard implements CanActivate {
 
     this.authService.redirectUrl = url;
 
-    return this.router.parseUrl('/login');
+    const sessionId = 123456789;
+
+    const navigationExtras: NavigationExtras = {
+      queryParams: { session_id: sessionId },
+      fragment: 'anchor',
+    };
+
+    return this.router.createUrlTree(['/login', navigationExtras]);
+  }
+
+  canMatch(route: Route): boolean {
+    const url = `/${route.path}`;
+    return this.checkLogin(url) === true;
   }
 }

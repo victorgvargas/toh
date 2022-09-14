@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -21,6 +21,11 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
+    const navigationExtras: NavigationExtras = {
+      queryParamsHandling: 'preserve',
+      preserveFragment: true,
+    };
+
     this.message = 'Trying to log in...';
 
     this.authService.login().subscribe(() => {
@@ -28,7 +33,7 @@ export class LoginComponent implements OnInit {
       if (this.authService.isLoggedIn) {
         const redirectUrl = '/admin';
 
-        this.router.navigate([redirectUrl]);
+        this.router.navigate([redirectUrl], navigationExtras);
       }
     });
   }
