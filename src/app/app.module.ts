@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ComposeMessageComponent } from './compose-message/compose-message.component';
 import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [AppComponent, MessagesComponent, ComposeMessageComponent],
@@ -20,6 +21,7 @@ import { AuthModule } from './auth/auth.module';
     AdminModule,
     AuthModule,
     AppRoutingModule,
+    StoreModule.forRoot({}, {}),
   ],
   providers: [
     // no need to place any providers due to the `providedIn` flag...
